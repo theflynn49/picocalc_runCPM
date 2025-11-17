@@ -59,6 +59,7 @@ add_executable(picocalc-runcpm
         drivers/fat32.h
         drivers/font-5x10.c
         drivers/font-8x10.c
+        drivers/font-4x10.c
         drivers/font.h
         drivers/keyboard.c
         drivers/keyboard.h

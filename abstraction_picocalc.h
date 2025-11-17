@@ -542,7 +542,7 @@ void _HardwareInit(void) {
 
     stdio_init_all();
     picocalc_init();
-    lcd_set_font(&font_5x10);
+    lcd_set_font(&font_4x10);
     audio_init() ;
     display_set_bell_callback(beep) ;
 #ifdef UART_DEBUG

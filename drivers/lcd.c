@@ -421,7 +421,7 @@ void lcd_putc(uint8_t column, uint8_t row, uint8_t c)
             }
         }
     }
-    else
+    else if (font->width == 5)
     {
         for (uint8_t i = 0; i < GLYPH_HEIGHT; i++, glyph++)
         {
@@ -438,6 +438,28 @@ void lcd_putc(uint8_t column, uint8_t row, uint8_t c)
             {
                 // The last row is where the underscore is drawn, but if no underscore is set, fill with glyph data
                 *(buffer++) = (*glyph & 0x10) || underscore ? foreground : background;
+                *(buffer++) = (*glyph & 0x08) || underscore ? foreground : background;
+                *(buffer++) = (*glyph & 0x04) || underscore ? foreground : background;
+                *(buffer++) = (*glyph & 0x02) || underscore ? foreground : background;
+                *(buffer++) = (*glyph & 0x01) || underscore ? foreground : background;
+            }
+        }
+    }
+    else if (font->width == 4)
+    {
+        for (uint8_t i = 0; i < GLYPH_HEIGHT; i++, glyph++)
+        {
+            if (i < GLYPH_HEIGHT - 1)
+            {
+                // Fill the row with the glyph data
+                *(buffer++) = (*glyph & 0x08) ? foreground : background;
+                *(buffer++) = (*glyph & 0x04) ? foreground : background;
+                *(buffer++) = (*glyph & 0x02) ? foreground : background;
+                *(buffer++) = (*glyph & 0x01) ? foreground : background;
+            }
+            else
+            {
+                // The last row is where the underscore is drawn, but if no underscore is set, fill with glyph data
                 *(buffer++) = (*glyph & 0x08) || underscore ? foreground : background;
                 *(buffer++) = (*glyph & 0x04) || underscore ? foreground : background;
                 *(buffer++) = (*glyph & 0x02) || underscore ? foreground : background;
