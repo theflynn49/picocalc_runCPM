@@ -28,9 +28,13 @@ USER 3
 TURBO
 ```
 <br>
-WS does work, but maybe the screen is a bit too small.
+WS does work, now that we have 80 columns.
 
 # Updates
+
+## v1.2
+
+Thanx to **rugosi** we have now 80 columns.
 
 ## v1.1a
 

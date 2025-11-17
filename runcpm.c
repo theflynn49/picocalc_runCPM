@@ -66,7 +66,7 @@ int main(void) {
     _clrscr();
      _puts("CP/M Emulator v" VERSION "\e[0m by \e[97mMarcelo  Dantas\e[0m\r\n");
      _puts("Picocalc-text-framework v0.14 by \e[97mBlair Leduc\e[0m\r\n");
-     _puts("Port v1.1 by \e[97mtheFlynn49\e[0m inspired by \e[97mGuido Lehwalder\e[0m's work\r\n");
+     _puts("Port v1.2 by \e[97mtheFlynn49\e[0m inspired by \e[97mGuido Lehwalder\e[0m's work\r\n");
 
   //  _puts("  CP/M Emulator v" VERSION " by Marcelo Dantas\r\n");
     _puts("      Built " __DATE__ " - " __TIME__ "\r\n");
