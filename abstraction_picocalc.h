@@ -581,7 +581,7 @@ void _putch(uint8 ch) {
     static int nbout = 0 ; 
     char buf[10] ;
 
-    while(user_freeze) ; // wait for Ctrl-Q
+    while(user_freeze) sleep_ms(50); // wait for Ctrl-Q
     putchar(ch);
 #if UART_DEBUG
     if ((ch>0x20) && (ch<0x80)) 

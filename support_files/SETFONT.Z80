@@ -1,0 +1,57 @@
+; SETFONT - choose the Font by its size : 4, 5 or 8
+;	theflynn49, nov 2025
+;
+        org     0100h
+        jp      start
+;;;;;;;;;;
+        include bdosequ.lib
+;;;;;;;;;;
+;
+m_crlf  db      cr,lf,0
+m_ok    db      cr,lf,0
+m_font4 db	01bh,'[?4264m',0
+m_font5 db	01bh,'[?4264h',0
+m_font8 db	01bh,'[?4264l',0
+;
+m_err    db     'This command needs a parameter : 4,5 or 8',cr,lf,0
+;
+;;;;;;;;;;
+The two next display routines are Copyright (c) 2016 - Marcelo Dantas
+;;;;;;;;;;
+dspch   push    af              ;display character in A
+        exx
+        ld      c,conout
+        ld      e,a
+        call    bdos
+        exx
+        pop     af
+        ret
+;;;;;;;;;;
+dspstr  ld      a,(hl)          ;display \0 terminated string pointed by HL
+        inc     hl
+        or      a,a
+        ret     z
+        call    dspch
+        jr      dspstr
+;;;;;;;;;;
+start
+	ld	hl,fcbname+1
+	ld	a,(hl)
+	cp	20h
+	jr	nz,err
+	dec	hl
+	ld	a,(hl)
+	ld	hl,m_font4
+	cp	'4'  
+	jr	z,setfont
+	ld	hl,m_font5
+	cp	'5' 
+	jr	z,setfont
+	ld	hl,m_font8
+	cp	'8'
+	jr	z,setfont
+err
+	ld	hl,m_err
+setfont
+        call    dspstr
+	ret
