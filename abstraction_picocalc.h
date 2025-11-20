@@ -25,6 +25,7 @@
 #include "drivers/onboard_led.h"
 #include "drivers/display.h"
 #include "drivers/audio.h"
+#include "drivers/southbridge.h"
 
 bool power_off_requested = false;
 volatile bool user_interrupt = false ;
@@ -551,10 +552,23 @@ void _HardwareInit(void) {
 } 
 
 void _HardwareOut(const uint32 Port, const uint32 Value) {
+    switch(Port)
+    {
+	case 202 : sb_write_lcd_backlight(Value & 0xff); 
+		 return ;
+	case 203 : sb_write_keyboard_backlight(Value & 0xff); 
+		 return ;
+    }
 }
 
 uint32 _HardwareIn(const uint32 Port) {
-    return 0;
+    switch(Port)
+    {
+	case 201 : return (uint32) sb_read_battery() ;
+	case 202 : return (uint32) sb_read_lcd_backlight() ; 
+	case 203 : return (uint32) sb_read_keyboard_backlight() ;
+	default : return 0L ;
+    }
 }
 
 /* Console abstraction functions */
@@ -581,7 +595,7 @@ void _putch(uint8 ch) {
     static int nbout = 0 ; 
     char buf[10] ;
 
-    while(user_freeze) sleep_ms(50); // wait for Ctrl-Q
+    while(user_freeze) ; // wait for Ctrl-Q
     putchar(ch);
 #if UART_DEBUG
     if ((ch>0x20) && (ch<0x80)) 

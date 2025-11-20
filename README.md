@@ -32,13 +32,28 @@ WS does work, now that we have 80 columns.
 
 # Updates
 
+## v1.3
+
+Added the BATTERY.COM and LGHTCALC.COM utilities in support_files. Sources are in the same DIR.
+At boot, the battery level is also displayed.
+
+- BATTERY will show the battery level, the LCD backlight level and the keyboard backlight level.
+- LGHTCALC K <nn> : nn from 0 to 255, will set the keyboard backlight level
+- LGHTCALC L <nn> : nn from 0 to 255, will set the LCD backlight level
+
+Z80 I/O ports are defined like this :
+
+- port 201 (read) : Battery level
+- port 202 (read/write) : LCD backlight (0 to 255)
+- port 203 (read/write) : keyboard backlight (0 to 255)
+
 ## v1.2a
 
 Added the SETFONT utility in support_files. Source is in SETFONT.PAS
 
-- SETFONT 4 will the the 4x10 font
-- SETFONT 5 will the the 5x10 font
-- SETFONT 8 will the the 8x10 font
+- SETFONT 4 will select the 4x10 font
+- SETFONT 5 will select the 5x10 font
+- SETFONT 8 will select the 8x10 font
 
 ## v1.2
 

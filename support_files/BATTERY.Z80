@@ -1,0 +1,39 @@
+; SETFONT - choose the Font by its size : 4, 5 or 8
+;	theflynn49, nov 2025
+;
+        org     0100h
+        jp      start
+;;;;;;;;;;
+        include bdosequ.lib
+        include display.lib
+;;;;;;;;;;
+;
+m_pct  db      '%'
+m_crlf	db	cr,lf,0
+m_bl    db      'The battery level is ',0
+m_lb    db      'The lcd backlight is ',0
+m_kb    db      'The keyboard backlight is ',0
+;
+;;;;;;;;;;
+start
+	ld	hl,m_bl
+	call	dspstr
+ 	in	a,(1)
+	call	dspau
+	ld	hl,m_pct
+	call	dspstr
+;
+	ld	hl,m_lb
+	call	dspstr
+ 	in	a,(2)
+	call	dspau
+	ld	hl,m_crlf
+	call	dspstr
+;
+	ld	hl,m_kb
+	call	dspstr
+ 	in	a,(3)
+	call	dspau
+	ld	hl,m_crlf
+	jp	dspstr
+;	fall thru = ret

@@ -1,0 +1,88 @@
+; LGHTCALC - set keyboard and LCD baclihght levels
+;	theflynn49, nov 2025
+;
+        org     0100h
+        jp      start
+;;;;;;;;;;
+        include BDOSEQU.LIB
+;;;;;;;;;;
+;
+;
+m_crlf	 db	cr,lf,0
+m_err    db     'Syntaxe: LGHTCALC [K,L] level',cr,lf,0
+;
+;;;;;;;;;;
+;; The two next display routines are Copyright (c) 2016 - Marcelo Dantas
+;;;;;;;;;;
+dspch   push    af              ;display character in A
+        exx
+        ld      c,conout
+        ld      e,a
+        call    bdos
+        exx
+        pop     af
+        ret
+;;;;;;;;;;
+dspstr  ld      a,(hl)          ;display \0 terminated string pointed by HL
+        inc     hl
+        or      a,a
+        ret     z
+        call    dspch
+        jr      dspstr
+;;;;;;;;;;
+atoi
+	ld	de,0
+_atoi1
+	ld 	a,(hl)
+	inc	hl
+	cp	' '
+	ret	z	; result in DE
+	cp	'0'
+	jr	c,_atoierr
+	cp	'9'+1
+	jr	nc,_atoierr
+	push	hl
+	ld	h,d
+	ld	l,e
+	push 	bc
+	and	a,0fh
+	ld	c,a
+	ld	b,0
+	add	hl,hl	; *2
+	add	hl,hl   ; *4
+	add	hl,hl   ; *8
+	add	hl,de   ; *9
+	add	hl,de   ; *10
+	add	hl,bc   ; + next digit
+	pop	bc
+	ld	d,h
+	ld	e,l
+	pop	hl
+	jr	_atoi1
+_atoierr
+	jp	err
+	ret
+;;;;;;;;
+start
+	ld	hl,fcbname
+	ld	a,(hl)
+	cp	'K'	; KEYBD
+	jr	z,kbd
+	cp 	'L'	; LCD
+	jr	nz,err
+; LCD
+	ld 	hl,fcbtwo+1
+	call	atoi
+	ld	a,e
+	out	(2),A
+	ret
+kbd
+	ld 	hl,fcbtwo+1
+	call	atoi
+	ld	a,e
+	out	(3),A
+	ret
+	
+err	ld	hl,m_err
+	call	dspstr
+	ret
